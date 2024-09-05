@@ -32,8 +32,9 @@ export class ProductsController {
   //@Patch(':id')
   @MessagePattern({ cmd: 'update_product' })
   update(
-    //@Payload('id', ParseIntPipe) id: number,
-    @Payload() updateProductDto: UpdateProductDto) {
+    @Payload() updateProductDto: any) {
+      console.log({updateProductDto});
+      
     return this.productsService.update(updateProductDto.id, updateProductDto);
   }
 
@@ -41,5 +42,10 @@ export class ProductsController {
   @MessagePattern({ cmd: 'delete_product' })
   remove(@Payload('id', ParseIntPipe) id: number,) {
     return this.productsService.remove(+id);
+  }
+
+  @MessagePattern({ cmd: 'validate_products' })
+  validateProducts(@Payload('ids') ids: number[],) {
+    return this.productsService.validate(ids);
   }
 }
